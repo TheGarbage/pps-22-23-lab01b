@@ -1,25 +1,30 @@
 package e1;
 
+import e1.characterPackage.Character;
+import e1.characterPackage.CharacterFactory;
+
 import java.util.*;
 
 public class LogicsImpl implements Logics {
-	
-	private final Pair<Integer,Integer> pawn;
-	private Pair<Integer,Integer> knight;
-	private final Random random = new Random();
+	private final Character pawn;
+	private final Character knight;
 	private final int size;
-	 
-    public LogicsImpl(int size){
-    	this.size = size;
-        this.pawn = this.randomEmptyPosition();
-        this.knight = this.randomEmptyPosition();	
-    }
-    
-	private final Pair<Integer,Integer> randomEmptyPosition(){
-    	Pair<Integer,Integer> pos = new Pair<>(this.random.nextInt(size),this.random.nextInt(size));
-    	// the recursive call below prevents clash with an existing pawn
-    	return this.pawn!=null && this.pawn.equals(pos) ? randomEmptyPosition() : pos;
-    }
+
+	public LogicsImpl(int size, Pair<Integer, Integer> pawnPosition, Pair<Integer, Integer> knightPosition){
+		this.size = size;
+		this.pawn = CharacterFactory.makePawn(getPosition(pawnPosition));
+		this.knight = CharacterFactory.makeKnight(getPosition(knightPosition));
+	}
+
+    public LogicsImpl(int size) {
+		this(size, null, null);
+	}
+
+	public Pair<Integer,Integer> getPosition(Pair<Integer, Integer> coordinate){
+		Random random = new Random();
+		coordinate = (coordinate != null) ? coordinate : new Pair<Integer, Integer>(random.nextInt(size), random.nextInt(size));
+		return this.hasCharacter(coordinate) ? this.getPosition(null) : coordinate;
+	}
     
 	@Override
 	public boolean hit(int row, int col) {
@@ -27,22 +32,25 @@ public class LogicsImpl implements Logics {
 			throw new IndexOutOfBoundsException();
 		}
 		// Below a compact way to express allowed moves for the knight
-		int x = row-this.knight.getX();
-		int y = col-this.knight.getY();
-		if (x!=0 && y!=0 && Math.abs(x)+Math.abs(y)==3) {
-			this.knight = new Pair<>(row,col);
-			return this.pawn.equals(this.knight);
+		if (knight.move(row, col)) {
+			return hasPawn(row, col);
 		}
 		return false;
 	}
 
+	public boolean hasCharacter(Pair<Integer, Integer> coordinate){
+		int row = coordinate.getX();
+		int col = coordinate.getY();
+		return hasKnight(row, col) || hasPawn(row, col);
+	}
+
 	@Override
 	public boolean hasKnight(int row, int col) {
-		return this.knight.equals(new Pair<>(row,col));
+		return this.knight != null && this.knight.CheckPositionPresence(row, col);
 	}
 
 	@Override
 	public boolean hasPawn(int row, int col) {
-		return this.pawn.equals(new Pair<>(row,col));
+		return this.pawn != null && this.pawn.CheckPositionPresence(row, col);
 	}
 }
