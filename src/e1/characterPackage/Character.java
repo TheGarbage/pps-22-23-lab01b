@@ -8,8 +8,8 @@ public class Character implements CheckPositionPresence {
     }
 
     @Override
-    public boolean CheckPositionPresence(int row, int col) {
-        return movementStrategy.CheckPositionPresence(row, col);
+    public boolean checkPositionPresence(int row, int col) {
+        return movementStrategy.checkPositionPresence(row, col);
     }
 
     public boolean move(int row, int col) {

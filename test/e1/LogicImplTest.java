@@ -53,7 +53,7 @@ public class LogicImplTest {
             for (int i = 0; i < SIZE_OF_GUI * SIZE_OF_GUI; i++) {
                 row = i / SIZE_OF_GUI;
                 col = i % SIZE_OF_GUI;
-                if (finder.CheckPositionPresence(row, col))
+                if (finder.checkPositionPresence(row, col))
                     pair = new Pair<Integer, Integer>(row, col);
             }
             return pair;

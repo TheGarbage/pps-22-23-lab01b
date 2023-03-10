@@ -7,7 +7,7 @@ public abstract class positionStrategy implements CheckPositionPresence {
 
     abstract boolean move(int row, int col);
 
-    public boolean CheckPositionPresence(int row, int col) {
+    public boolean checkPositionPresence(int row, int col) {
         return position.equals(new Pair<Integer, Integer>(row, col));
     }
 }

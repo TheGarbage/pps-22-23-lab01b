@@ -46,11 +46,11 @@ public class LogicsImpl implements Logics {
 
 	@Override
 	public boolean hasKnight(int row, int col) {
-		return this.knight != null && this.knight.CheckPositionPresence(row, col);
+		return this.knight != null && this.knight.checkPositionPresence(row, col);
 	}
 
 	@Override
 	public boolean hasPawn(int row, int col) {
-		return this.pawn != null && this.pawn.CheckPositionPresence(row, col);
+		return this.pawn != null && this.pawn.checkPositionPresence(row, col);
 	}
 }

@@ -1,0 +1,80 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Character{
+    positionStrategy movementStrategy;
+    boolean checkPositionPresence(int row, int col);
+    boolean move(int row, int col);
+}
+Character *-- PositionStrategy
+
+class CharactersFactory{
+    Character makeKnight(Pair<Integer, Integer> position);
+    Character makePawn(Pair<Integer, Integer> position);
+}
+Character <-- CharactersFactory : Makes <
+CharactersFactory o-- Pair
+
+interface CheckPositionPresence{
+    Boolean checkPositionPresence(int row, int col);
+}
+CheckPositionPresence <|.. Character
+CheckPositionPresence <|.. PositionStrategy
+
+class Knight{
+    boolean move(int row, int col)
+}
+
+class Pawn{
+    boolean move(int row, int col);
+}
+
+abstract class PositionStrategy{
+    Pair<Integer,Integer> position;
+    boolean move(int row, int col);
+    boolean checkPositionPresence(int row, int col);
+}
+PositionStrategy <|-- Knight
+PositionStrategy <|-- Pawn
+PositionStrategy *-- Pair
+
+class GUI{
+    final long serialVersionUID = -6218820567019985015L;
+    Map<JButton,Pair<Integer,Integer>> buttons = new HashMap<>();
+    Logics logics;
+    int SIZE = 5;
+    void draw();
+}
+GUI *-- Logics
+GUI *-- Pair
+
+interface Logics{
+    boolean hit(int row, int col);
+    boolean hasKnight(int row, int col);
+    boolean hasPawn(int row, int col);
+}
+Logics <|.. LogicsImpl
+
+class LogicsImpl{
+    Character pawn;
+    Character knight;
+    int size;
+    Pair<Integer,Integer> getPosition(Pair<Integer, Integer> coordinate);
+    boolean hit(int row, int col);
+    boolean hasCharacter(Pair<Integer, Integer> coordinate);
+    boolean hasKnight(int row, int col);
+    boolean hasPawn(int row, int col);
+}
+LogicsImpl *-- Character
+LogicsImpl o-- CharactersFactory
+
+class Pair{
+    X x;
+    Y y;
+    X getX();
+    Y getY();
+    int hashCode();
+    boolean equals(Object obj);
+    String toString();
+}
+@enduml
