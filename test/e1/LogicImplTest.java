@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LogicImplTest {
 
-    LogicsImpl logics;
+    Logics logics;
 
     private final int SIZE_OF_GUI = 7;
 

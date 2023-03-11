@@ -63,4 +63,8 @@ class LogicsImpl{
 LogicsImpl *-- Character
 LogicsImpl o-- CharactersFactory
 
+class LogicsImplTest{
+    LogicsImpl logics;
+}
+
 @enduml

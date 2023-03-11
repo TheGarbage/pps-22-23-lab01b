@@ -63,4 +63,13 @@ class LogicsImpl{
 LogicsImpl *-- Character
 LogicsImpl o-- CharactersFactory
 
+class LogicsImplTest{
+    Logics logics;
+    --
+    class RandomPositionTests;
+    class SelectivePositionTests;
+}
+LogicsImplTest *-- Logics
+LogicsImplTest o-- CheckPositionPresence
+
 @enduml
