@@ -2,13 +2,9 @@ package e1.characterPackage;
 
 import e1.Pair;
 
-public class Pawn extends positionStrategy {
-    public Pawn(Pair<Integer, Integer> position) {
-        this.position = position;
-    }
-
+public class Pawn implements MovementStrategy {
     @Override
-    public boolean move(int row, int col) {
+    public boolean movementChecker(Pair<Integer, Integer> currentPosition, Pair<Integer, Integer> newPosition) {
         return false;
     }
 

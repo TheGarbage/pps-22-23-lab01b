@@ -20,7 +20,7 @@ public class LogicsImpl implements Logics {
 		this(size, null, null);
 	}
 
-	public Pair<Integer,Integer> getPosition(Pair<Integer, Integer> coordinate){
+	private Pair<Integer,Integer> getPosition(Pair<Integer, Integer> coordinate){
 		Random random = new Random();
 		coordinate = (coordinate != null) ? coordinate : new Pair<Integer, Integer>(random.nextInt(size), random.nextInt(size));
 		return this.hasCharacter(coordinate) ? this.getPosition(null) : coordinate;
@@ -32,13 +32,13 @@ public class LogicsImpl implements Logics {
 			throw new IndexOutOfBoundsException();
 		}
 		// Below a compact way to express allowed moves for the knight
-		if (knight.move(row, col)) {
+		if (knight.changeOfPosition(row, col)) {
 			return hasPawn(row, col);
 		}
 		return false;
 	}
 
-	public boolean hasCharacter(Pair<Integer, Integer> coordinate){
+	private boolean hasCharacter(Pair<Integer, Integer> coordinate){
 		int row = coordinate.getX();
 		int col = coordinate.getY();
 		return hasKnight(row, col) || hasPawn(row, col);

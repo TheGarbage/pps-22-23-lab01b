@@ -1,18 +1,27 @@
 package e1.characterPackage;
 
-public class Character implements CheckPositionPresence {
-    private final positionStrategy movementStrategy;
+import e1.Pair;
 
-    public Character(positionStrategy movementStrategy){;
+public class Character implements CheckPositionPresence {
+    private final MovementStrategy movementStrategy;
+    protected Pair<Integer,Integer> position;
+
+    public Character(MovementStrategy movementStrategy, Pair<Integer,Integer> position){;
         this.movementStrategy = movementStrategy;
+        this.position = position;
     }
 
     @Override
     public boolean checkPositionPresence(int row, int col) {
-        return movementStrategy.checkPositionPresence(row, col);
+        return position.equals(new Pair<Integer, Integer>(row, col));
     }
 
-    public boolean move(int row, int col) {
-        return movementStrategy.move(row, col);
+    public boolean changeOfPosition(int row, int col) {
+        Pair<Integer, Integer> newPosition = new Pair<Integer, Integer>(row, col);
+        boolean thisChangeOfPositionIsLegal = movementStrategy.movementChecker(this.position, newPosition);
+        if(thisChangeOfPositionIsLegal){
+            this.position = newPosition;
+        }
+        return thisChangeOfPositionIsLegal;
     }
 }

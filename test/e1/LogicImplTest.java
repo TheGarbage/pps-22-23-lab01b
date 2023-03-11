@@ -17,7 +17,7 @@ public class LogicImplTest {
     private final int SIZE_OF_GUI = 7;
 
     @Nested
-    class RandomPositionTest {
+    class RandomPositionTests{
         @BeforeEach
         public void beforeEach(){
             logics = new LogicsImpl(SIZE_OF_GUI);
@@ -25,17 +25,17 @@ public class LogicImplTest {
 
         @Test
         public void knightIsInstantiatedTest() {
-            assertNotNull(getPositionOfSomething(knightFinder()));
+            assertNotNull(getPositionOfKnight());
         }
 
         @Test
         public void PawnIsInstantiatedTest() {
-            assertNotNull(getPositionOfSomething(pawnFinder()));
+            assertNotNull(getPositionOfPawn());
         }
 
         @Test
         public void PawnAndKnightAreNotInTheSamePosition() {
-           assertNotEquals(getPositionOfSomething(knightFinder()), getPositionOfSomething(pawnFinder()));
+           assertNotEquals(getPositionOfKnight(), getPositionOfPawn());
         }
 
         @Test
@@ -46,30 +46,31 @@ public class LogicImplTest {
             assertThrows(IndexOutOfBoundsException.class, () -> logics.hit(randomNumber, nRandomNumberGreaterThanSizeOfGui));
         }
 
-        private Pair<Integer, Integer> getPositionOfSomething(CheckPositionPresence finder) {
+        private Pair<Integer, Integer> getPositionOfKnight(){
+            return getPositionOfCharacter((int row, int col) -> logics.hasKnight(row, col));
+        }
+
+        private Pair<Integer, Integer> getPositionOfPawn(){
+            return getPositionOfCharacter((int row, int col) -> logics.hasPawn(row, col));
+        }
+
+        private Pair<Integer, Integer> getPositionOfCharacter(CheckPositionPresence checkPositionLogics) {
             Pair<Integer, Integer> pair = null;
             int row;
             int col;
             for (int i = 0; i < SIZE_OF_GUI * SIZE_OF_GUI; i++) {
                 row = i / SIZE_OF_GUI;
                 col = i % SIZE_OF_GUI;
-                if (finder.checkPositionPresence(row, col))
+                if (checkPositionLogics.checkPositionPresence(row, col)) {
                     pair = new Pair<Integer, Integer>(row, col);
+                }
             }
             return pair;
-        }
-
-        private CheckPositionPresence knightFinder(){
-            return (int row, int col) -> logics.hasKnight(row, col);
-        }
-
-        private CheckPositionPresence pawnFinder(){
-            return (int row, int col) -> logics.hasPawn(row, col);
         }
     }
 
     @Nested
-    class SelectivePositionTest{
+    class SelectivePositionTests{
         Pair<Integer, Integer> knightPosition = new Pair<Integer, Integer>(0, 0);
         Pair<Integer, Integer> rightKnightMovementFinalPosition = new Pair<Integer, Integer>(2, 1);
         Pair<Integer, Integer> wrongKnightMovementFinalPosition = new Pair<Integer, Integer>(1, 1);
